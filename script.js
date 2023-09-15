@@ -9,6 +9,7 @@ const figureParts = document.querySelectorAll('.figure-part');
 const image18= new Image();
 const imageSection=document.getElementById('imagen');
 let opacidad= 0;
+let filtro;
 image18.style.opacity=opacidad;
 
 const words = ['application', 'programming', 'interface', 'wizard'];
@@ -38,6 +39,9 @@ function displayWord() {
     finalMessage.innerText = 'Congratulations! You won! 😃';
     popup.style.display = 'flex';
   }
+  filtro=selectedWord.length;
+  filtro-=correctLetters.length;
+  console.log(filtro);
   imagen();
 }
 
@@ -63,6 +67,7 @@ function updateWrongLettersEl() {
   // Check if lost
   if (wrongLetters.length === figureParts.length) {
     finalMessage.innerText = 'Unfortunately you lost. 😕';
+    popup.style.zIndex = 10;
     popup.style.display = 'flex';
   }
 }
@@ -86,7 +91,7 @@ window.addEventListener('keydown', e => {
       if (!correctLetters.includes(letter)) {
         correctLetters.push(letter);
         opacidad+=1/selectedWord.length;
-
+        filtro-=correctLetters.length;
         displayWord();
       } else {
         showNotification();
@@ -109,10 +114,9 @@ function imagen(){
   image18.style.height = '100%';
   imageSection.classList.add('size');
   imageSection.appendChild(image18);
+  image18.style.filter=`blur(${filtro}px)`;
   image18.style.opacity=opacidad;
 }
-
-imagen();
 
 // Restart game and play again
 playAgainBtn.addEventListener('click', () => {
@@ -127,6 +131,7 @@ playAgainBtn.addEventListener('click', () => {
   updateWrongLettersEl();
 
   popup.style.display = 'none';
+  filtro=selectedWord.length;
   opacidad=0;
   image18.style.opacity=opacidad;
 });
