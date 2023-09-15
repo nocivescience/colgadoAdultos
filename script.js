@@ -9,12 +9,22 @@ const figureParts = document.querySelectorAll('.figure-part');
 const image18= new Image();
 const imageSection=document.getElementById('imagen');
 let opacidad= 0;
-let filtro;
 image18.style.opacity=opacidad;
 
 const words = ['application', 'programming', 'interface', 'wizard'];
 
 let selectedWord = words[Math.floor(Math.random() * words.length)];
+// let filtro=selectedWord.length;
+
+const letrasUnicas = new Set();
+
+Array.from(selectedWord).forEach((letter,index) => {
+  letrasUnicas.add(letter);
+});
+
+filtro=letrasUnicas.size;
+console.log(filtro);
+
 const correctLetters = [];
 const wrongLetters = [];
 
@@ -39,8 +49,7 @@ function displayWord() {
     finalMessage.innerText = 'Congratulations! You won! 😃';
     popup.style.display = 'flex';
   }
-  filtro=selectedWord.length;
-  filtro-=correctLetters.length;
+  // filtro-=1;
   console.log(filtro);
   imagen();
 }
@@ -86,17 +95,19 @@ window.addEventListener('keydown', e => {
   // console.log(e.keyCode);
   if (e.keyCode >= 65 && e.keyCode <= 90) {
     const letter = e.key;
-
+    
     if (selectedWord.includes(letter)) {
       if (!correctLetters.includes(letter)) {
         correctLetters.push(letter);
         opacidad+=1/selectedWord.length;
-        filtro-=correctLetters.length;
+        filtro-=1
         displayWord();
       } else {
         showNotification();
+        filtro+=0;
       }
     } else {
+      filtro-=0;
       if (!wrongLetters.includes(letter)) {
         wrongLetters.push(letter);
 
