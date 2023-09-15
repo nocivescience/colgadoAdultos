@@ -127,6 +127,8 @@ playAgainBtn.addEventListener('click', () => {
   updateWrongLettersEl();
 
   popup.style.display = 'none';
+  opacidad=0;
+  image18.style.opacity=opacidad;
 });
 
 
